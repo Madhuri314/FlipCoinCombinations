@@ -1,41 +1,58 @@
-#!/bin/bash -x
+#!/bin/bash
 
-declare -A doubletDictionary
+declare -A tripletDictionary
 declare -a percentArr
 
-hh=0
-ht=0
-th=0
-tt=0
+hhh=0
+hht=0
+hth=0
+htt=0
+thh=0
+tht=0
+tth=0
+ttt=0
 
 for ((counter=0; counter<20; counter++))
 do
-        ranCheck=$((RANDOM % 4))
+        ranCheck=$((RANDOM % 8))
         if [ $ranCheck -eq 0 ]
         then
-                ((hh++))
+                ((hhh++))
         elif [ $ranCheck -eq 1 ]
         then
-                ((ht++))
+                ((hht++))
         elif [ $ranCheck -eq 2 ]
         then
-                ((th++))
+                ((hth++))
         elif [ $ranCheck -eq 3 ]
         then
-                ((tt++))
+                ((htt++))
+        elif [ $ranCheck -eq 4 ]
+        then
+                ((thh++))
+        elif [ $ranCheck -eq 5 ]
+        then
+                ((tht++))
+        elif [ $ranCheck -eq 6 ]
+        then
+                ((tth++))
+        elif [ $ranCheck -eq 7 ]
+        then
+                ((ttt++))
         fi
 done
 
-doubletDictionary[HH]=$hh
-doubletDictionary[HT]=$ht
-doubletDictionary[TH]=$th
-doubletDictionary[TT]=$tt
+tripletDictionary[HHH]=$hhh
+tripletDictionary[HHT]=$hht
+tripletDictionary[HTH]=$hth
+tripletDictionary[HTT]=$htt
+tripletDictionary[THH]=$thh
+tripletDictionary[THT]=$tht
+tripletDictionary[TTH]=$tth
+tripletDictionary[TTT]=$ttt
 
-
-for i in ${!doubletDictionary[@]}
+for i in ${!tripletDictionary[@]}
 do
-        percentArr[$i]=$(( ${doubletDictionary[$i]} * 100 / 20 ))
-        echo $i "percentage = "${percentArr[@]}
+        percentArr[$i]=$(( ${tripletDictionary[$i]} * 100 / 20 ))
+        echo $i "percentage " ${percentArr[@]}
 done
-
-
