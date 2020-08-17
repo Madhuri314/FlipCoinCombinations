@@ -1,26 +1,41 @@
 #!/bin/bash -x
 
-declare -A singletDictionary
+declare -A doubletDictionary
+declare -a percentArr
 
-heads=0
-tails=0
+hh=0
+ht=0
+th=0
+tt=0
 
 for ((counter=0; counter<20; counter++))
 do
-        ranCheck=$((RANDOM % 2))
-        if [ $ranCheck -eq 1 ]
+        ranCheck=$((RANDOM % 4))
+        if [ $ranCheck -eq 0 ]
         then
-                ((heads++))
-        else
-                ((tails++))
+                ((hh++))
+        elif [ $ranCheck -eq 1 ]
+        then
+                ((ht++))
+        elif [ $ranCheck -eq 2 ]
+        then
+                ((th++))
+        elif [ $ranCheck -eq 3 ]
+        then
+                ((tt++))
         fi
 done
 
-singletDictionary[Head]=$heads
-singletDictionary[Tail]=$tails
+doubletDictionary[HH]=$hh
+doubletDictionary[HT]=$ht
+doubletDictionary[TH]=$th
+doubletDictionary[TT]=$tt
 
-for i in ${!singletDictionary[@]}
+
+for i in ${!doubletDictionary[@]}
 do
-        percentResult=$((${singletDictionary[$i]} * 100 / 20))
-        echo $i" percentage: "$percentResult
+        percentArr[$i]=$(( ${doubletDictionary[$i]} * 100 / 20 ))
+        echo $i "percentage = "${percentArr[@]}
 done
+
+
