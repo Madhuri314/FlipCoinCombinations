@@ -1,8 +1,13 @@
-#!/bin/bash
+#!/bin/bash -x
 
-declare -A tripletDictionary
-declare -a percentArr
+declare -A coinsDictionary
 
+heads=0
+tails=0
+hh=0
+ht=0
+th=0
+tt=0
 hhh=0
 hht=0
 hth=0
@@ -12,47 +17,96 @@ tht=0
 tth=0
 ttt=0
 
-for ((counter=0; counter<20; counter++))
+for ((counter=0; counter<50; counter++))
 do
-        ranCheck=$((RANDOM % 8))
-        if [ $ranCheck -eq 0 ]
-        then
-                ((hhh++))
-        elif [ $ranCheck -eq 1 ]
-        then
-                ((hht++))
-        elif [ $ranCheck -eq 2 ]
-        then
-                ((hth++))
-        elif [ $ranCheck -eq 3 ]
-        then
-                ((htt++))
-        elif [ $ranCheck -eq 4 ]
-        then
-                ((thh++))
-        elif [ $ranCheck -eq 5 ]
-        then
-                ((tht++))
-        elif [ $ranCheck -eq 6 ]
-        then
-                ((tth++))
-        elif [ $ranCheck -eq 7 ]
-        then
-                ((ttt++))
-        fi
+        choiceofCombo=$(( RANDOM % 3 + 1 ))
+        case $choiceofCombo in
+                1)
+                        coinFlip=$((RANDOM % 2))
+                        case $coinFlip in
+                                0)
+                                        ((heads++))
+                                        ;;
+                                1)
+                                        ((tails++))
+                                        ;;
+                                esac
+                                ;;
+                2)
+                        doubletFlip=$((RANDOM % 4))
+                        case $doubletFlip in
+                                0)
+                                        ((hh++))
+                                        ;;
+                                1)
+                                        ((ht++))
+                                        ;;
+                                2)
+                                        ((th++))
+                                        ;;
+                                3)
+                                        ((tt++))
+                                        ;;
+                                esac
+                                ;;
+
+                3)
+                        tripletFlip=$((RANDOM % 8))
+                        case $tripletFlip in
+                                0)
+                                        ((hhh++))
+                                        ;;
+                                1)
+                                        ((hht++))
+                                        ;;
+                                2)
+                                        ((hth++))
+                                        ;;
+                                3)
+                                        ((htt++))
+                                        ;;
+                                4)
+                                        ((thh++))
+                                        ;;
+                                5)
+                                        ((tht++))
+                                        ;;
+                                6)
+                                        ((tth++))
+                                        ;;
+                                7)
+                                        ((ttt++))
+                                        ;;
+                                esac
+                                ;;
+        esac
 done
 
-tripletDictionary[HHH]=$hhh
-tripletDictionary[HHT]=$hht
-tripletDictionary[HTH]=$hth
-tripletDictionary[HTT]=$htt
-tripletDictionary[THH]=$thh
-tripletDictionary[THT]=$tht
-tripletDictionary[TTH]=$tth
-tripletDictionary[TTT]=$ttt
+coinsDictionary[Head]=$heads
+coinsDictionary[Tail]=$tails
+coinsDictionary[HH]=$hh
+coinsDictionary[HT]=$ht
+coinsDictionary[TH]=$th
+coinsDictionary[TT]=$tt
+coinsDictionary[HHH]=$hhh
+coinsDictionary[HHT]=$hht
+coinsDictionary[HTH]=$hth
+coinsDictionary[HTT]=$htt
+coinsDictionary[THH]=$thh
+coinsDictionary[THT]=$tht
+coinsDictionary[TTH]=$tth
+coinsDictionary[TTT]=$ttt
 
-for i in ${!tripletDictionary[@]}
+echo ${!coinsDictionary[@]}
+echo ${coinsDictionary[@]}
+
+winningCombination=`printf "%s\n" ${coinsDictionary[@]} | sort -nr | head -1`
+echo $winningCombination
+
+for i in ${!coinsDictionary[@]}
 do
-        percentArr[$i]=$(( ${tripletDictionary[$i]} * 100 / 20 ))
-        echo $i "percentage " ${percentArr[@]}
+        if [ ${coinsDictionary[$i]} -eq $winningCombination ]
+        then
+                echo "Winning Combination is "$i
+        fi
 done
